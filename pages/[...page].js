@@ -55,6 +55,11 @@ export default function Page({ page }) {
     fetchPreview();
   }, [router.asPath]);
 
+  // 🚨 Critical fix: handle fallback state
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
   if (!previewPage) {
     return <div>Page not found</div>;
   }
