@@ -1,5 +1,6 @@
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { builder, BuilderComponent } from '@builder.io/react';
-import { useEffect } from 'react';
 
 builder.init(process.env.BUILDER_API_KEY);
 
@@ -11,9 +12,7 @@ export async function getStaticProps({ params, preview = false }) {
       userAttributes: {
         urlPath: pagePath,
       },
-      options: {
-        preview: preview || false,
-      },
+      options: { preview },
     })
     .toPromise();
 
@@ -25,19 +24,39 @@ export async function getStaticProps({ params, preview = false }) {
   };
 }
 
-
 export async function getStaticPaths() {
   return {
-    paths: [], // Next.js will build these pages on-demand
+    paths: [],
     fallback: true,
   };
 }
 
 export default function Page({ page }) {
-  if (!page) {
+  const router = useRouter();
+  const [previewPage, setPreviewPage] = useState(page);
+
+  useEffect(() => {
+    async function fetchPreview() {
+      if (router.query['builder.preview']) {
+        const fresh = await builder
+          .get('page', {
+            userAttributes: {
+              urlPath: router.asPath.split('?')[0],
+            },
+            options: { preview: true },
+          })
+          .toPromise();
+
+        if (fresh) setPreviewPage(fresh);
+      }
+    }
+
+    fetchPreview();
+  }, [router.asPath]);
+
+  if (!previewPage) {
     return <div>Page not found</div>;
   }
 
-  return <BuilderComponent model="page" content={page} />;
+  return <BuilderComponent model="page" content={previewPage} />;
 }
-
