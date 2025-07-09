@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://thenomasclub.com
+
+# Sitemaps
+Sitemap: https://thenomasclub.com/sitemap.xml
