@@ -1,19 +1,6 @@
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
 
 export default function Layout({ children, title, description, image }) {
-  const [origin, setOrigin] = useState('');
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setOrigin(window.location.origin);
-    }
-  }, []);
-
-  const ogImageUrl = image?.startsWith('http')
-    ? image
-    : `${origin}${image || '/assets/tnc-og.jpg'}`;
-
 
   return (
     <>
@@ -31,13 +18,13 @@ export default function Layout({ children, title, description, image }) {
         <meta property="og:description" content="We are Bali's fastest growing community with over 150+ members worldwide. Built around movement, mindset and meaning for those who want more out of life." />
         <meta property="og:url" content="https://thenomasclub.com/" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={ogImage} />
+        <meta property="og:image" content="/tnc-og.jpg" />
 
         {/* Twitter Cards */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="The Nomas Club - Built For Those Who Move Differently" />
         <meta name="twitter:description" content="We are Bali's fastest growing community with over 150+ members worldwide. Built around movement, mindset and meaning for those who want more out of life." />
-        <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:image" content="/tnc-og.jpg" />
 
         {/* Favicons */}
         <link rel="icon" href="/favicon.svg" />
