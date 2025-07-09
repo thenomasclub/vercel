@@ -18,7 +18,7 @@ export default function Layout({ children, title, description, image }) {
         <meta property="og:description" content="We are Bali's fastest growing community with over 150+ members worldwide. Built around movement, mindset and meaning for those who want more out of life." />
         <meta property="og:url" content="https://thenomasclub.com/" />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content="/tnc-og.jpg" />
+        <meta property="og:image" content="https://thenomasclub.com/tnc-og.jpg" />
 
         {/* Twitter Cards */}
         <meta name="twitter:card" content="summary_large_image" />
