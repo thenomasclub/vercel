@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { builder, BuilderComponent } from '@builder.io/react';
 import Layout from '../components/Layout';
 
-builder.init(process.env.BUILDER_API_KEY);
+builder.init(process.env.NEXT_PUBLIC_BUILDER_API_KEY);
 
 export async function getStaticProps({ params, preview = false }) {
   const pagePath = '/' + (params?.page?.join('/') || '');
