@@ -40,9 +40,9 @@ export default function Layout({ children, title, description, image }) {
         <meta name="twitter:image" content={ogImage} />
 
         {/* Favicons */}
-        <link rel="icon" href="/assets/favicon/favicon.svg" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png" />
-        <link rel="manifest" href="assets/favicon/site.webmanifest" />
+        <link rel="icon" href="/favicon.svg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
 
         {/* Preconnect for performance */}
         <link rel="preconnect" href="https://cdn.builder.io" />
