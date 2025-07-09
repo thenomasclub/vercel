@@ -24,7 +24,7 @@ export default function Layout({ children, title, description, image }) {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="The Nomas Club - Built For Those Who Move Differently" />
         <meta name="twitter:description" content="We are Bali's fastest growing community with over 150+ members worldwide. Built around movement, mindset and meaning for those who want more out of life." />
-        <meta name="twitter:image" content="/tnc-og.jpg" />
+        <meta name="twitter:image" content="https://thenomasclub.com/tnc-og.jpg" />
 
         {/* Favicons */}
         <link rel="icon" href="/favicon.svg" />
