@@ -1,7 +1,7 @@
 import { builder, BuilderComponent } from '@builder.io/react';
 import { useEffect } from 'react';
 
-builder.init('29cbfd023c4d47f1ac4aa0acdc84a51c'); // 🔑 Replace this with your real API key
+builder.init(process.env.BUILDER_API_KEY);
 
 export async function getStaticProps({ params }) {
   const pagePath = '/' + (params?.page?.join('/') || '');
