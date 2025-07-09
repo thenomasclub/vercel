@@ -3,13 +3,16 @@ import { useEffect } from 'react';
 
 builder.init(process.env.BUILDER_API_KEY);
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params, preview = false }) {
   const pagePath = '/' + (params?.page?.join('/') || '');
 
   const page = await builder
     .get('page', {
       userAttributes: {
         urlPath: pagePath,
+      },
+      options: {
+        preview: preview || false,
       },
     })
     .toPromise();
@@ -21,6 +24,7 @@ export async function getStaticProps({ params }) {
     revalidate: 5,
   };
 }
+
 
 export async function getStaticPaths() {
   return {
