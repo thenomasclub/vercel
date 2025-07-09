@@ -35,6 +35,31 @@ export default function Layout({ children, title, description, image }) {
         <link rel="preconnect" href="https://cdn.builder.io" />
         <link rel="dns-prefetch" href="https://cdn.builder.io" />
         {/* Add your fonts CDN here too if needed */}
+
+        {/* ...existing SEO and OG tags... */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "The Nomas Club",
+          "url": "https://thenomasclub.com",
+          "logo": "https://thenomasclub.com/tnc-logo-256.jpg", // Replace with your actual logo URL
+          "sameAs": [
+            "https://www.instagram.com/thenomasclub",
+            "https://www.linkedin.com/company/thenomasclub"
+          ]
+        })}} />
+
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "The Nomas Club",
+          "url": "https://thenomasclub.com",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://thenomasclub.com/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        })}} />
       </Head>
 
       <main>{children}</main>
