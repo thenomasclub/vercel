@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { builder, BuilderComponent } from '@builder.io/react';
+import Layout from '../components/Layout';
 
 builder.init(process.env.BUILDER_API_KEY);
 
@@ -58,5 +59,9 @@ export default function Page({ page }) {
     return <div>Page not found</div>;
   }
 
-  return <BuilderComponent model="page" content={previewPage} />;
+  return (
+    <Layout>
+      <BuilderComponent model="page" content={previewPage} />
+    </Layout>
+  );
 }
