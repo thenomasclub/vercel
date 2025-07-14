@@ -1,3 +1,4 @@
+/* NOT NEEDED
 export default async function handler(req, res) {
   try {
     const ipRes = await fetch('https://ipapi.co/json/');
@@ -7,3 +8,4 @@ export default async function handler(req, res) {
     res.status(500).json({ error: 'IP lookup failed' });
   }
 }
+*/
