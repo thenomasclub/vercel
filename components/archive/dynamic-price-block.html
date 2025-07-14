@@ -1,0 +1,48 @@
+<script>
+  async function updatePriceBasedOnLocation() {
+    try {
+      const res = await fetch('/api/ip');
+      const locationData = await res.json();
+      const country = locationData.country;
+
+      const currencyMap = {
+        US: 'usd',
+        DE: 'eur',
+        FR: 'eur',
+        GB: 'gbp',
+        CA: 'cad',
+        AU: 'aud',
+        ID: 'idr'
+      };
+
+      const desiredCurrency = currencyMap[country] || 'gbp';
+
+      const priceRes = await fetch('/api/prices');
+      const prices = await priceRes.json();
+      console.log('Available prices:', prices);
+
+      // Pick price by currency AND monthly interval
+      const price = prices.find(p =>
+        p.currency === desiredCurrency &&
+        p.recurring && p.recurring.interval === 'month'
+      );
+
+      if (price) {
+        const formatted = new Intl.NumberFormat(navigator.language, {
+          style: 'currency',
+          currency: price.currency,
+        }).format(price.unit_amount / 100);
+
+        const el = document.getElementById('price-text-monthly');
+        if (el) el.innerText = formatted;
+      } else {
+        document.getElementById('price-text-monthly').innerText = 'Price unavailable';
+      }
+    } catch (e) {
+      console.error('Failed to load localized price', e);
+    }
+  }
+
+  updatePriceBasedOnLocation();
+</script>
+<p id="price-text-monthly">Loading price...</p>
