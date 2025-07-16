@@ -1,72 +1,30 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { builder, BuilderComponent } from '@builder.io/react';
-import Layout from '../components/Layout';
+// pages/index.js
+import dynamic from 'next/dynamic';
+import { builder } from '@builder.io/react';
 
-builder.init(process.env.NEXT_PUBLIC_BUILDER_API_KEY);
+builder.init('29cbfd023c4d47f1ac4aa0acdc84a51c');
 
-export async function getStaticProps({ params, preview = false }) {
-  const pagePath = '/' + (params?.page?.join('/') || '');
+const BuilderComponent = dynamic(() =>
+  import('@builder.io/react').then(mod => mod.BuilderComponent),
+  { ssr: false }
+);
 
-  const page = await builder
-    .get('page', {
-      userAttributes: {
-        urlPath: pagePath,
-      },
-      options: { preview },
-    })
+export async function getStaticProps() {
+  const builderContent = await builder
+    .get('page', { url: '/' })
     .toPromise();
 
   return {
     props: {
-      page: page || null,
+      builderContent: builderContent || null,
     },
-    revalidate: 5,
   };
 }
 
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: true,
-  };
-}
-
-export default function Page({ page }) {
-  const router = useRouter();
-  const [previewPage, setPreviewPage] = useState(page);
-
-  useEffect(() => {
-    async function fetchPreview() {
-      if (router.query['builder.preview']) {
-        const fresh = await builder
-          .get('page', {
-            userAttributes: {
-              urlPath: router.asPath.split('?')[0],
-            },
-            options: { preview: true },
-          })
-          .toPromise();
-
-        if (fresh) setPreviewPage(fresh);
-      }
-    }
-
-    fetchPreview();
-  }, [router.asPath]);
-
-  // 🚨 Critical fix: handle fallback state
-  if (router.isFallback) {
-    return <div>Loading...</div>;
+export default function Home({ builderContent }) {
+  if (!builderContent) {
+    return <div>No homepage content found.</div>;
   }
 
-  if (!previewPage) {
-    return <div>Page not found</div>;
-  }
-
-  return (
-    <Layout>
-      <BuilderComponent model="page" content={previewPage} />
-    </Layout>
-  );
+  return <BuilderComponent model="page" content={builderContent} />;
 }
