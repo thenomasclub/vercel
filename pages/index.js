@@ -1,29 +1,25 @@
-// pages/index.js
-import dynamic from 'next/dynamic';
-import { builder } from '@builder.io/react';
+import { builder, BuilderComponent } from '@builder.io/react';
 
-builder.init('29cbfd023c4d47f1ac4aa0acdc84a51c');
+builder.init(process.env.NEXT_PUBLIC_BUILDER_API_KEY);
 
-const BuilderComponent = dynamic(() =>
-  import('@builder.io/react').then(mod => mod.BuilderComponent),
-  { ssr: false }
-);
+export async function getStaticProps({ params }) {
+  const urlPath = '/' + (params?.page ? params.page.join('/') : '');
 
-export async function getStaticProps() {
   const builderContent = await builder
-    .get('page', { url: '/' })
+    .get('page', { url: urlPath })
     .toPromise();
 
   return {
     props: {
       builderContent: builderContent || null,
     },
+    notFound: !builderContent,
   };
 }
 
-export default function Home({ builderContent }) {
+export default function CatchAllPage({ builderContent }) {
   if (!builderContent) {
-    return <div>No homepage content found.</div>;
+    return <h1>404 - Page Not Found</h1>;
   }
 
   return <BuilderComponent model="page" content={builderContent} />;
