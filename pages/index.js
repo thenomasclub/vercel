@@ -1,26 +1,36 @@
-import { builder, BuilderComponent } from '@builder.io/react';
+import dynamic from 'next/dynamic';
+import { builder } from '@builder.io/react';
 
 builder.init(process.env.NEXT_PUBLIC_BUILDER_API_KEY);
 
-export async function getStaticProps({ params }) {
-  const urlPath = '/' + (params?.page ? params.page.join('/') : '');
+// Dynamically load BuilderComponent only on the client
+const BuilderComponent = dynamic(
+  () => import('@builder.io/react').then(mod => mod.BuilderComponent),
+  { ssr: false } // 👈 disables server-side rendering for this component
+);
 
-  const builderContent = await builder
-    .get('page', { url: urlPath })
+export async function getServerSideProps() {
+  const content = await builder
+    .get('page', {
+      url: '/',
+    })
     .toPromise();
 
   return {
     props: {
-      builderContent: builderContent || null,
+      content: content || null,
     },
-    notFound: !builderContent,
   };
 }
 
-export default function CatchAllPage({ builderContent }) {
-  if (!builderContent) {
-    return <h1>404 - Page Not Found</h1>;
-  }
-
-  return <BuilderComponent model="page" content={builderContent} />;
+export default function Home({ content }) {
+  return (
+    <>
+      {content ? (
+        <BuilderComponent model="page" content={content} />
+      ) : (
+        <h1>No content found</h1>
+      )}
+    </>
+  );
 }
