@@ -1,4 +1,5 @@
 import { builder, BuilderComponent } from '@builder.io/react';
+import { useEffect } from 'react';
 
 builder.init(process.env.NEXT_PUBLIC_BUILDER_API_KEY);
 
@@ -17,11 +18,18 @@ export async function getServerSideProps(context) {
   return {
     props: {
       content: content || null,
+      urlPath,
     },
   };
 }
 
-export default function Home({ content }) {
+export default function Home({ content, urlPath }) {
+  useEffect(() => {
+    builder.setUserAttributes({
+      urlPath: urlPath || '/',
+    });
+  }, [urlPath]);
+
   return (
     <>
       {content ? (
