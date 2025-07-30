@@ -28,6 +28,23 @@ export default function Home({ content, urlPath }) {
     builder.setUserAttributes({
       urlPath: urlPath || '/',
     });
+
+    // ✅ Wait for full hydration before setting scroll logic
+    setTimeout(() => {
+      const header = document.querySelector('.scroll-header');
+      if (!header) return;
+
+      function onScroll() {
+        if (window.scrollY > window.innerHeight * 0.9) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      }
+
+      window.addEventListener('scroll', onScroll);
+      onScroll();
+    }, 0); // Use 0 or 100ms — ensures it's post-hydration
   }, [urlPath]);
 
   return (
