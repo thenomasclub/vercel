@@ -3,9 +3,14 @@ import { builder, BuilderComponent } from '@builder.io/react';
 builder.init(process.env.NEXT_PUBLIC_BUILDER_API_KEY);
 
 export async function getServerSideProps(context) {
+  const fullPath = context.req.url || '/';
+  const urlPath = fullPath.split('?')[0];
+
   const content = await builder
     .get('page', {
-      url: context.resolvedUrl,
+      userAttributes: {
+        urlPath,
+      },
     })
     .toPromise();
 
