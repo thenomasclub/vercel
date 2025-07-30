@@ -11,7 +11,7 @@ const BuilderComponent = dynamic(
 
 export async function getServerSideProps() {
   const content = await builder
-    .get('page', {
+    .get('home', {
       url: '/',
     })
     .toPromise();
