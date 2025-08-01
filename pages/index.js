@@ -25,11 +25,16 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home({ content, urlPath }) {
+  
   useEffect(() => {
     const cleanup = setupScrollHeader();
     builder.setUserAttributes({
       urlPath: urlPath || '/',
     });
+
+    return () => {
+      if (cleanup) cleanup();
+    };
   }, [urlPath]);
 
   return (
