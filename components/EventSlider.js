@@ -49,20 +49,22 @@ export default function EventSlider() {
     <div className="event-slider auto-scroll">
       {events.map((event) => (
         <div key={event.id} className="event-slide">
-          <h4>{event.title}</h4>
-          <p>
-            {new Date(event.date).toLocaleString('en-GB', {
-              weekday: 'short',
-              day: 'numeric',
-              month: 'short',
-              year: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit',
-              hour12: false,
-            })}
-          </p>
-          <p>{event.location}</p>
-          <p>{event.description}</p>
+          <h4 className="event-title">{event.title}</h4>
+          <div className="event-meta">
+            <p className="event-date">
+              {new Date(event.date).toLocaleString('en-GB', {
+                weekday: 'short',
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false,
+              })}
+            </p>
+            <p className="event-location">{event.location}</p>
+          </div>
+          <p className="event-description">{event.description}</p>
         </div>
       ))}
     </div>

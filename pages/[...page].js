@@ -3,6 +3,7 @@ import { builder, BuilderComponent } from '@builder.io/react';
 import { setupScrollHeader } from '../utils/setupScrollHeader';
 import EventSlider from '../components/EventSlider';
 import { initSlideToUnlock } from '@/utils/slideUnlock';
+import { initAutoScroll } from '../hooks/autoScroll';
 
 
 builder.init(process.env.NEXT_PUBLIC_BUILDER_API_KEY);
@@ -29,7 +30,8 @@ export async function getServerSideProps(context) {
 
 export default function Page({ content, urlPath }) {
   useEffect(() => {
-    const cleanup = setupScrollHeader();
+    const cleanupScrollHeader = setupScrollHeader();
+    const cleanupAutoScroll = initAutoScroll();
 
     initSlideToUnlock({
       containerId: 'slide-unlock-container',
@@ -41,7 +43,8 @@ export default function Page({ content, urlPath }) {
     });
 
     return () => {
-      if (cleanup) cleanup();
+      if (cleanupScrollHeader) cleanupScrollHeader();
+      if (cleanupAutoScroll) cleanupAutoScroll();
     };
   }, [urlPath]);
 

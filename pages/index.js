@@ -1,6 +1,7 @@
 import { builder, BuilderComponent } from '@builder.io/react';
 import { useEffect } from 'react';
 import { setupScrollHeader } from '../utils/setupScrollHeader';
+import { initAutoScroll } from '../hooks/autoScroll';
 
 builder.init(process.env.NEXT_PUBLIC_BUILDER_API_KEY);
 
@@ -27,13 +28,16 @@ export async function getServerSideProps(context) {
 export default function Home({ content, urlPath }) {
   
   useEffect(() => {
-    const cleanup = setupScrollHeader();
+    const cleanupScrollHeader = setupScrollHeader();
+    const cleanupAutoScroll = initAutoScroll();
+
     builder.setUserAttributes({
       urlPath: urlPath || '/',
     });
 
     return () => {
-      if (cleanup) cleanup();
+      if (cleanupScrollHeader) cleanupScrollHeader();
+      if (cleanupAutoScroll) cleanupAutoScroll();
     };
   }, [urlPath]);
 
