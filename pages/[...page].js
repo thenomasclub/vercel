@@ -35,7 +35,7 @@ export default function Page({ content, urlPath }) {
 
     initSlideToUnlock({
       containerId: 'slide-unlock-container',
-      redirectUrl: 'https://app.thenomasclub.com',
+      redirectUrl: 'https://buy.stripe.com/9B64gy3Tb6Kre9d2fRak000',
     });
 
     builder.setUserAttributes({
